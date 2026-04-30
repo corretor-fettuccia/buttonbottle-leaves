@@ -1,23 +1,9 @@
 /* =========================================================
-   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.0.0
-   Core Library
-   Repositório: https://corretor-fettuccia.github.io/corretor-fettuccia/buttonbottle-leaves/js/script.js
+   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.2.0
+   Agora com suporte a TEXTO INFINITO!
    
-   COMO USAR:
-   1. Adicione o atributo "data-bottle-leaves" em qualquer <button>
-   2. Configure com data-texto, data-folhas, etc.
-   3. O plugin aplica automaticamente!
-   
-   ATRIBUTOS DISPONÍVEIS:
-   - data-bottle-leaves  → obrigatório (ativa o plugin)
-   - data-texto          → texto do botão
-   - data-folhas         → quantidade de folhas (padrão: 95)
-   - data-intensidade    → intensidade da animação (padrão: 1.15)
-   - data-gravidade      → gravidade (padrão: 0.02)
-   - data-herois         → proporção de folhas heroicas (padrão: 0.32)
-   
-   MÉTODOS PÚBLICOS:
-   - BtnBottleLeaves.scan() → escaneia e ativa novos botões dinâmicos
+   Use: data-texto0, data-texto1, data-texto2, data-texto3...
+   Ou o atalho data-texto (equivale a data-texto0)
 ========================================================= */
 
 (function(global) {
@@ -34,8 +20,15 @@
       this.bounds = { width: 0, height: 0, bottomY: 0 };
       this.animationFrame = null;
       
+      // Configuração de textos múltiplos (suporte a INFINITOS)
+      this.texts = this.extractAllTexts(button);
+      this.currentTextIndex = 0;
+      this.textInterval = null;
+      this.isHovering = false;
+      
       this.updateDimensions();
       this.createLeaves();
+      this.setupTextHover();
       
       // resize observer
       this.resizeObserver = new ResizeObserver(() => {
@@ -43,6 +36,129 @@
         this.adjustLeavesToResize();
       });
       this.resizeObserver.observe(button);
+    }
+    
+    extractAllTexts(button) {
+      const texts = [];
+      
+      // Método 1: data-texto, data-texto1, data-texto2, data-texto3...
+      let index = 0;
+      let hasMore = true;
+      
+      // tenta pegar data-texto (atalho para index 0)
+      const mainText = button.getAttribute('data-texto');
+      if (mainText !== null) {
+        texts.push(mainText);
+        index = 1;
+      }
+      
+      // continua pegando data-texto1, data-texto2, data-texto3...
+      while (hasMore) {
+        const textAttr = button.getAttribute(`data-texto${index}`);
+        if (textAttr !== null) {
+          texts.push(textAttr);
+          index++;
+        } else {
+          hasMore = false;
+        }
+      }
+      
+      // Método 2: data-textos (JSON array) - formato alternativo
+      const textosJson = button.getAttribute('data-textos');
+      if (textosJson && texts.length === 0) {
+        try {
+          const parsed = JSON.parse(textosJson);
+          if (Array.isArray(parsed)) {
+            parsed.forEach(t => texts.push(t));
+          }
+        } catch(e) { /* ignora erro de JSON */ }
+      }
+      
+      // se não houver textos configurados, usa o padrão
+      if (texts.length === 0) {
+        texts.push(this.config.text || "RESPLANDOR");
+      }
+      
+      return texts;
+    }
+    
+    setupTextHover() {
+      if (this.texts.length <= 1) return; // só um texto, não precisa de animação
+      
+      let hoverTimeout = null;
+      
+      this.button.addEventListener('mouseenter', () => {
+        this.isHovering = true;
+        if (hoverTimeout) clearTimeout(hoverTimeout);
+        this.startTextRotation();
+      });
+      
+      this.button.addEventListener('mouseleave', () => {
+        this.isHovering = false;
+        if (this.textInterval) {
+          clearInterval(this.textInterval);
+          this.textInterval = null;
+        }
+        hoverTimeout = setTimeout(() => {
+          if (this.textSpan && !this.isHovering) {
+            this.animateTextChange(this.texts[0]);
+            this.currentTextIndex = 0;
+          }
+        }, 150);
+      });
+    }
+    
+    startTextRotation() {
+      if (this.textInterval) clearInterval(this.textInterval);
+      
+      // começa do índice 1 (vai direto para o segundo texto)
+      this.currentTextIndex = 0;
+      
+      // mostra o próximo texto após um pequeno delay
+      if (this.texts.length > 1) {
+        setTimeout(() => {
+          if (this.isHovering) {
+            this.currentTextIndex = 1;
+            this.animateTextChange(this.texts[1]);
+          }
+        }, 80);
+      }
+      
+      // agenda as trocas subsequentes
+      let step = 2; // próximo índice após o 1
+      this.textInterval = setInterval(() => {
+        if (!this.isHovering) return;
+        
+        if (step < this.texts.length) {
+          this.currentTextIndex = step;
+          this.animateTextChange(this.texts[step]);
+          step++;
+        } else {
+          // volta para o início do loop (excluindo o primeiro texto)
+          step = 1;
+          this.currentTextIndex = step;
+          this.animateTextChange(this.texts[step]);
+          step++;
+        }
+      }, 600);
+    }
+    
+    animateTextChange(newText) {
+      if (!this.textSpan) return;
+      
+      this.textSpan.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+      this.textSpan.style.opacity = '0';
+      this.textSpan.style.transform = 'translateY(3px)';
+      
+      setTimeout(() => {
+        if (this.textSpan) {
+          this.textSpan.textContent = newText;
+          this.textSpan.style.opacity = '1';
+          this.textSpan.style.transform = 'translateY(0)';
+        }
+      }, 150);
+      
+      this.splash(0.4);
     }
     
     updateDimensions() {
@@ -153,6 +269,7 @@
     destroy() {
       if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
       if (this.resizeObserver) this.resizeObserver.disconnect();
+      if (this.textInterval) clearInterval(this.textInterval);
     }
   }
   
@@ -193,15 +310,17 @@
     activateButton(button, config) {
       button.classList.add('btn-bottle-leaves');
       
+      // obtém o primeiro texto (data-texto ou data-texto0)
+      const firstText = button.getAttribute('data-texto') || 
+                        button.getAttribute('data-texto0') || 
+                        "RESPLANDOR";
+      
       if (!button.querySelector('.btn-bottle-leaves__glass')) {
         button.innerHTML = `
           <div class="btn-bottle-leaves__glass"></div>
           <div class="btn-bottle-leaves__bed"></div>
-          <div class="btn-bottle-leaves__text">${config.text}</div>
+          <div class="btn-bottle-leaves__text">${firstText}</div>
         `;
-      } else {
-        const textSpan = button.querySelector('.btn-bottle-leaves__text');
-        if (textSpan) textSpan.textContent = config.text;
       }
       
       const bed = button.querySelector('.btn-bottle-leaves__bed');
@@ -261,7 +380,7 @@
   const plugin = new BtnBottleLeavesPlugin();
   global.BtnBottleLeaves = {
     scan: () => plugin.scan(),
-    version: '3.0.0'
+    version: '3.2.0'
   };
   
 })(window);
