@@ -156,3 +156,39 @@
     letter-spacing: 3px;
   }
 }
+
+/* Adicione esta regra ao final do arquivo style.css */
+
+/* Texto com fundo blur preto para melhor legibilidade */
+.btn-bottle-leaves__text {
+  position: relative;
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  font-size: 1.08rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  background: linear-gradient(125deg, 
+    #F9E7B3 0%,
+    #FFE48C 20%,
+    #F5C542 45%,
+    #FFD970 70%,
+    #FCEABB 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textBreathing 5.5s ease infinite;
+  text-shadow: 0 0 14px rgba(255, 200, 50, 0.3);
+  /* NOVO: backdrop blur preto para destacar o texto */
+  backdrop-filter: blur(4px) brightness(0.9);
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 60px;
+  padding: 0 20px;
+  margin: 0 15px;
+  width: calc(100% - 30px);
+  box-sizing: border-box;
+}
