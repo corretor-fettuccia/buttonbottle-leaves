@@ -1,11 +1,8 @@
 /* =========================================================
-   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.3.0
-   Agora com controle de timing para transições de texto!
-   
-   NOVOS ATRIBUTOS:
-   - data-transicao-velocidade: tempo entre trocas (ms) padrão: 600
-   - data-transicao-suavidade: duração do fade (ms) padrão: 200
-   - data-transicao-estilo: 'fade' ou 'slide' ou 'scale'
+   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.4.0
+   - Folhas agitam APENAS UMA VEZ no hover (sem repetição)
+   - No clique, agitam novamente
+   - Texto com fundo blur preto para melhor legibilidade
 ========================================================= */
 
 (function(global) {
@@ -22,10 +19,13 @@
       this.bounds = { width: 0, height: 0, bottomY: 0 };
       this.animationFrame = null;
       
+      // Controle de animação das folhas
+      this.hasShakenThisHover = false;  // evita repetição no hover
+      
       // Configurações de transição de texto
-      this.transitionSpeed = config.transitionSpeed || 600;      // tempo entre trocas
-      this.transitionDuration = config.transitionDuration || 200; // duração do fade
-      this.transitionStyle = config.transitionStyle || 'fade';    // fade, slide, scale
+      this.transitionSpeed = config.transitionSpeed || 600;
+      this.transitionDuration = config.transitionDuration || 200;
+      this.transitionStyle = config.transitionStyle || 'fade';
       
       // Configuração de textos múltiplos
       this.texts = this.extractAllTexts(button);
@@ -47,8 +47,6 @@
     
     extractAllTexts(button) {
       const texts = [];
-      
-      // Método 1: data-texto, data-texto1, data-texto2...
       let index = 0;
       let hasMore = true;
       
@@ -68,7 +66,6 @@
         }
       }
       
-      // fallback
       if (texts.length === 0) {
         texts.push(this.config.text || "RESPLANDOR");
       }
@@ -80,19 +77,32 @@
       if (this.texts.length <= 1) return;
       
       let hoverTimeout = null;
+      let hoverStartTime = 0;
       
       this.button.addEventListener('mouseenter', () => {
         this.isHovering = true;
+        hoverStartTime = Date.now();
+        this.hasShakenThisHover = false; // reset para novo hover
+        
         if (hoverTimeout) clearTimeout(hoverTimeout);
+        
+        // AGITA AS FOLHAS APENAS UMA VEZ ao entrar
+        if (!this.hasShakenThisHover) {
+          this.hasShakenThisHover = true;
+          this.splash(0.8); // agitação suave ao entrar
+        }
+        
         this.startTextRotation();
       });
       
       this.button.addEventListener('mouseleave', () => {
         this.isHovering = false;
+        
         if (this.textInterval) {
           clearInterval(this.textInterval);
           this.textInterval = null;
         }
+        
         hoverTimeout = setTimeout(() => {
           if (this.textSpan && !this.isHovering) {
             this.animateTextChange(this.texts[0], true);
@@ -107,7 +117,6 @@
       
       this.currentTextIndex = 0;
       
-      // mostra o próximo texto após um pequeno delay
       if (this.texts.length > 1) {
         setTimeout(() => {
           if (this.isHovering) {
@@ -140,10 +149,8 @@
       const style = this.transitionStyle;
       const duration = this.transitionDuration;
       
-      // Configura a transição
       this.textSpan.style.transition = `all ${duration}ms cubic-bezier(0.2, 0.9, 0.4, 1.1)`;
       
-      // Animação de saída
       if (style === 'fade') {
         this.textSpan.style.opacity = '0';
       } else if (style === 'slide') {
@@ -158,7 +165,6 @@
         if (this.textSpan) {
           this.textSpan.textContent = newText;
           
-          // Animação de entrada
           if (style === 'fade') {
             this.textSpan.style.opacity = '1';
           } else if (style === 'slide') {
@@ -171,10 +177,7 @@
         }
       }, duration);
       
-      // Pequena reação das folhas (apenas na primeira vez)
-      if (!isRestoring) {
-        this.splash(0.3);
-      }
+      // Não agita as folhas na troca de texto para evitar repetição
     }
     
     updateDimensions() {
@@ -282,6 +285,11 @@
       }
     }
     
+    // Método público para agitar as folhas (chamado pelo clique)
+    shake(force = 1.2) {
+      this.splash(force);
+    }
+    
     destroy() {
       if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
       if (this.resizeObserver) this.resizeObserver.disconnect();
@@ -312,7 +320,6 @@
     }
     
     extractConfig(button) {
-      // Lê configurações de transição
       const transitionSpeed = parseInt(button.getAttribute('data-transicao-velocidade')) || 600;
       const transitionDuration = parseInt(button.getAttribute('data-transicao-suavidade')) || 200;
       const transitionStyle = button.getAttribute('data-transicao-estilo') || 'fade';
@@ -359,9 +366,10 @@
     }
     
     bindEvents(button, engine) {
+      // Clique: agita as folhas novamente
       button.addEventListener('click', (e) => {
         e.preventDefault();
-        engine.splash(1.2);
+        engine.shake(1.3); // agitação mais forte no clique
         
         const glass = button.querySelector('.btn-bottle-leaves__glass');
         if (glass) {
@@ -402,7 +410,7 @@
   const plugin = new BtnBottleLeavesPlugin();
   global.BtnBottleLeaves = {
     scan: () => plugin.scan(),
-    version: '3.3.0'
+    version: '3.4.0'
   };
   
 })(window);
