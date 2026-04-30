@@ -1,7 +1,8 @@
 /* =========================================================
-   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.6.0
-   - Folhas NÃO pulam no hover (somente no clique)
-   - Transição de texto mais lenta e suave
+   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.6.1
+   - Folhas: pulam 1x no hover (suave)
+   - Folhas: pulam 1x no clique (mais forte)
+   - Loop de textos suave
 ========================================================= */
 
 (function(global) {
@@ -16,6 +17,9 @@
       this.leaves = [];
       this.bounds = { width: 0, height: 0, bottomY: 0, topY: 0 };
       this.animationFrame = null;
+      
+      // Controle para evitar pulos repetidos
+      this.hasShakenOnHover = false;
       
       this.transitionSpeed = config.transitionSpeed || 1200;
       this.transitionDuration = config.transitionDuration || 500;
@@ -72,12 +76,22 @@
       
       this.button.addEventListener('mouseenter', () => {
         this.isHovering = true;
+        
+        // 🔥 FOLHAS PULAM UMA VEZ no hover (apenas se ainda não pulou)
+        if (!this.hasShakenOnHover) {
+          this.hasShakenOnHover = true;
+          this.splash(0.8); // pulo suave no hover
+        }
+        
         if (hoverTimeout) clearTimeout(hoverTimeout);
         this.startTextRotation();
       });
       
       this.button.addEventListener('mouseleave', () => {
         this.isHovering = false;
+        
+        // Reseta o controle para o próximo hover
+        this.hasShakenOnHover = false;
         
         if (this.textInterval) {
           clearInterval(this.textInterval);
@@ -214,7 +228,7 @@
       this.bounds.prevHeight = newH;
     }
     
-    // SPLASH - chamado APENAS no clique
+    // SPLASH - faz as folhas pularem
     splash(force = 1.0) {
       for (let leaf of this.leaves) {
         const delay = Math.random() * 60;
@@ -353,7 +367,7 @@
       this.instances.set(button, engine);
       engine.start();
       
-      // SOMENTE O CLIQUE - remove qualquer animação de folha no hover
+      // 🔥 CLIQUE: folhas pulam com mais força
       button.addEventListener('click', (e) => {
         e.preventDefault();
         engine.shake(1.3);
@@ -391,7 +405,7 @@
   const plugin = new BtnBottleLeavesPlugin();
   global.BtnBottleLeaves = {
     scan: () => plugin.scan(),
-    version: '3.6.0'
+    version: '3.6.1'
   };
   
 })(window);
