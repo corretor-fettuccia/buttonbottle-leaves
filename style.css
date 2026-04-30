@@ -1,7 +1,7 @@
 /* =========================================================
-   BTN BOTTLE LEAVES PLUGIN — CORE STYLES v3.0.0
+   BTN BOTTLE LEAVES PLUGIN — CORE STYLES v3.4.0
    Todos os efeitos ficam DENTRO do botão
-   Repositório: https://corretor-fettuccia.github.io/corretor-fettuccia/buttonbottle-leaves/style.css
+   Repositório: https://corretor-fettuccia.github.io/buttonbottle-leaves/style.css
 ========================================================= */
 
 .btn-bottle-leaves {
@@ -98,7 +98,9 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-/* texto */
+/* =========================================================
+   TEXTO COM CONTORNO/SOMBRA ESCURA PARA LEGIBILIDADE
+   ========================================================= */
 .btn-bottle-leaves__text {
   position: relative;
   z-index: 12;
@@ -106,7 +108,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 1.08rem;
   letter-spacing: 5px;
   text-transform: uppercase;
@@ -121,7 +123,19 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: textBreathing 5.5s ease infinite;
-  text-shadow: 0 0 14px rgba(255, 200, 50, 0.3);
+  /* 🔥 CONTORNO escuro ao redor do texto para destacar sobre as folhas 🔥 */
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.8),
+    0 0 8px rgba(0, 0, 0, 0.5),
+    1px 1px 1px rgba(0, 0, 0, 0.6);
+}
+
+/* Contorno mais forte no hover para melhor legibilidade */
+.btn-bottle-leaves:hover .btn-bottle-leaves__text {
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 10px rgba(0, 0, 0, 0.6),
+    1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 @keyframes textBreathing {
@@ -146,6 +160,7 @@
     0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* responsivo */
 @media (max-width: 580px) {
   .btn-bottle-leaves {
     width: 340px !important;
@@ -155,40 +170,4 @@
     font-size: 0.8rem;
     letter-spacing: 3px;
   }
-}
-
-/* Adicione esta regra ao final do arquivo style.css */
-
-/* Texto com fundo blur preto para melhor legibilidade */
-.btn-bottle-leaves__text {
-  position: relative;
-  z-index: 12;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  font-weight: 600;
-  font-size: 1.08rem;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  background: linear-gradient(125deg, 
-    #F9E7B3 0%,
-    #FFE48C 20%,
-    #F5C542 45%,
-    #FFD970 70%,
-    #FCEABB 100%);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: textBreathing 5.5s ease infinite;
-  text-shadow: 0 0 14px rgba(255, 200, 50, 0.3);
-  /* NOVO: backdrop blur preto para destacar o texto */
-  backdrop-filter: blur(4px) brightness(0.9);
-  background-color: rgba(0, 0, 0, 0.35);
-  border-radius: 60px;
-  padding: 0 20px;
-  margin: 0 15px;
-  width: calc(100% - 30px);
-  box-sizing: border-box;
 }
