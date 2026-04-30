@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BtnBottleLeaves — Biblioteca de Botões com Efeito de Folhas Douradas</title>
 
-<!-- CSS da Biblioteca -->
+<!-- CSS da Biblioteca (URL corrigida) -->
 <link rel="stylesheet" href="https://corretor-fettuccia.github.io/buttonbottle-leaves/style.css">
 
 <style>
-  /* Estilos exclusivos para a demonstração (não fazem parte da biblioteca) */
+  /* ============================================
+     ESTILOS EXCLUSIVOS PARA DEMONSTRAÇÃO
+     (NÃO FAZEM PARTE DA BIBLIOTECA)
+  ============================================ */
   * {
     margin: 0;
     padding: 0;
@@ -32,14 +35,15 @@
   .header {
     text-align: center;
     margin-bottom: 50px;
-    padding: 30px 20px;
+    padding: 40px 20px;
     background: rgba(0,0,0,0.4);
     border-radius: 40px;
     backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,215,0,0.15);
   }
   
   .header h1 {
-    font-size: 2.8rem;
+    font-size: 3rem;
     background: linear-gradient(135deg, #FFD966, #FFE484, #F5C542);
     -webkit-background-clip: text;
     background-clip: text;
@@ -48,14 +52,15 @@
     letter-spacing: -0.5px;
   }
   
-  .header .version {
+  .header .badge {
     display: inline-block;
     background: rgba(255,215,0,0.2);
-    padding: 5px 15px;
-    border-radius: 30px;
+    padding: 6px 18px;
+    border-radius: 40px;
     font-size: 0.85rem;
     color: #FFD966;
-    margin-top: 10px;
+    margin: 10px 0;
+    font-family: monospace;
   }
   
   .header p {
@@ -72,6 +77,11 @@
     padding: 30px;
     margin-bottom: 40px;
     border: 1px solid rgba(255,215,0,0.15);
+    transition: all 0.3s ease;
+  }
+  
+  .section:hover {
+    border-color: rgba(255,215,0,0.3);
   }
   
   .section h2 {
@@ -82,17 +92,22 @@
     letter-spacing: -0.3px;
   }
   
-  .section h2 small {
-    font-size: 0.85rem;
-    color: #888;
-    font-weight: normal;
+  .section h2 .feature-new {
+    background: rgba(100,200,100,0.2);
+    color: #aaffaa;
+    font-size: 0.7rem;
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-left: 12px;
+    vertical-align: middle;
   }
   
   .section .description {
     color: #999;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     border-left: 3px solid #FFD966;
     padding-left: 20px;
+    line-height: 1.5;
   }
   
   /* Grid de botões */
@@ -115,9 +130,10 @@
   
   .code-card h3 {
     color: #FFD966;
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 12px;
     font-weight: 500;
+    letter-spacing: -0.2px;
   }
   
   .code-card pre {
@@ -125,19 +141,20 @@
     padding: 16px;
     border-radius: 12px;
     overflow-x: auto;
-    font-family: 'Monaco', 'Menlo', monospace;
+    font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
     font-size: 0.8rem;
     color: #86e2d5;
     line-height: 1.5;
+    border: 1px solid #1a1a25;
   }
   
   .code-card code {
     color: #ffb86c;
   }
   
-  .badge {
+  .attr-badge {
     display: inline-block;
-    background: rgba(255,215,0,0.15);
+    background: rgba(255,215,0,0.12);
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -145,6 +162,7 @@
     margin-right: 8px;
     margin-bottom: 8px;
     font-family: monospace;
+    border: 1px solid rgba(255,215,0,0.2);
   }
   
   .attr-list {
@@ -154,15 +172,63 @@
     margin: 20px 0;
   }
   
+  /* Tabela */
+  .table-wrapper {
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+  
+  th {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #333;
+    color: #FFD966;
+    font-weight: 500;
+  }
+  
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #222;
+    color: #ccc;
+  }
+  
+  tr:hover td {
+    background: rgba(255,215,0,0.05);
+  }
+  
+  code {
+    background: #1a1a2a;
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-family: monospace;
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    border-top: 1px solid rgba(255,215,0,0.1);
+    margin-top: 20px;
+    color: #666;
+    font-size: 0.85rem;
+  }
+  
   .btn-demo {
     background: rgba(255,255,255,0.05);
     border: 1px solid #333;
     color: #fff;
-    padding: 12px 24px;
+    padding: 10px 24px;
     border-radius: 40px;
     cursor: pointer;
     transition: all 0.2s;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
   }
   
   .btn-demo:hover {
@@ -170,17 +236,10 @@
     border-color: #FFD966;
   }
   
-  footer {
-    text-align: center;
-    padding: 40px 20px;
-    border-top: 1px solid rgba(255,215,0,0.1);
-    margin-top: 40px;
-    color: #666;
-    font-size: 0.85rem;
-  }
-  
   hr {
-    border-color: rgba(255,215,0,0.1);
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
     margin: 20px 0;
   }
 </style>
@@ -191,21 +250,22 @@
   <!-- HEADER -->
   <div class="header">
     <h1>✨ BtnBottleLeaves</h1>
-    <div class="version">v3.0.0 — Plugin Declarativo</div>
+    <div class="badge">v3.2.0 — Plugin Declarativo</div>
     <p>Botões com efeito de vidro líquido e folhas douradas animadas.<br>
-    Basta adicionar <strong style="color:#FFD966">data-bottle-leaves</strong> ao seu botão e configurar via atributos HTML.</p>
+    Basta adicionar <strong style="color:#FFD966">data-bottle-leaves</strong> ao seu botão e configurar via atributos HTML.<br>
+    <strong style="color:#aaffaa">✨ NOVIDADE: Suporte a textos infinitos no hover!</strong></p>
   </div>
   
   <!-- SEÇÃO 1: INSTALAÇÃO RÁPIDA -->
   <div class="section">
     <h2>📦 1. Instalação</h2>
     <div class="description">
-      Inclua os arquivos da biblioteca no seu projeto:
+      Inclua os arquivos da biblioteca no seu projeto. São apenas dois arquivos!
     </div>
     <div class="code-card">
-      <h3>📁 CSS (no &lt;head&gt;)</h3>
+      <h3>🎨 CSS (no &lt;head&gt;)</h3>
       <pre><code>&lt;link rel="stylesheet" href="https://corretor-fettuccia.github.io/buttonbottle-leaves/style.css"&gt;</code></pre>
-      <h3 style="margin-top: 15px;">📁 JavaScript (antes do &lt;/body&gt;)</h3>
+      <h3 style="margin-top: 15px;">⚡ JavaScript (antes do &lt;/body&gt;)</h3>
       <pre><code>&lt;script src="https://corretor-fettuccia.github.io/buttonbottle-leaves/js/script.js"&gt;&lt;/script&gt;</code></pre>
     </div>
   </div>
@@ -214,7 +274,7 @@
   <div class="section">
     <h2>🚀 2. Uso Básico</h2>
     <div class="description">
-      Adicione o atributo <code style="background:#1e1e2a; padding:2px 6px; border-radius:4px;">data-bottle-leaves</code> a qualquer botão.
+      Adicione o atributo <code>data-bottle-leaves</code> a qualquer botão. O plugin faz o resto!
     </div>
     
     <div class="buttons-grid">
@@ -222,36 +282,103 @@
     </div>
     
     <div class="code-card">
-      <h3>📝 Código HTML</h3>
+      <h3>📝 HTML Mínimo</h3>
       <pre><code>&lt;button data-bottle-leaves style="width: 320px; height: 85px;"&gt;&lt;/button&gt;</code></pre>
-      <p style="color:#888; margin-top: 12px; font-size:0.85rem;">✅ O plugin aplica automaticamente o texto padrão "RESPLANDOR" e 95 folhas.</p>
+      <p style="color:#888; margin-top: 12px; font-size:0.85rem;">✅ Resultado: Botão com texto "RESPLANDOR" e 95 folhas douradas animadas.</p>
     </div>
   </div>
   
-  <!-- SEÇÃO 3: ATRIBUTOS DE CONFIGURAÇÃO -->
+  <!-- SEÇÃO 3: TEXTOS INFINITOS (NOVO!) -->
   <div class="section">
-    <h2>⚙️ 3. Atributos de Configuração</h2>
+    <h2>🔄 3. Múltiplos Textos no Hover <span class="feature-new">INFINITO!</span></h2>
+    <div class="description">
+      Use <code>data-texto</code>, <code>data-texto1</code>, <code>data-texto2</code>, <code>data-texto3</code>... <strong>quantos quiser!</strong><br>
+      Ao passar o mouse, os textos alternam suavemente a cada 600ms.
+    </div>
+    
+    <!-- Exemplo com 3 textos -->
+    <div class="buttons-grid">
+      <button data-bottle-leaves 
+              data-texto="BRISA" 
+              data-texto1="LEVE" 
+              data-texto2="GOSTOSA" 
+              style="width: 320px; height: 85px;">
+      </button>
+      
+      <!-- Exemplo com 6 textos -->
+      <button data-bottle-leaves 
+              data-texto="🌅 AMANHECER"
+              data-texto1="☀️ MANHÃ"
+              data-texto2="🌤️ TARDE"
+              data-texto3="🌙 ENTARDECER"
+              data-texto4="⭐ NOITE"
+              data-texto5="🌌 MADRUGADA"
+              style="width: 320px; height: 85px;">
+      </button>
+    </div>
+    
+    <div class="code-card">
+      <h3>📝 Código com 3 textos</h3>
+      <pre><code>&lt;button data-bottle-leaves 
+        data-texto="BRISA" 
+        data-texto1="LEVE" 
+        data-texto2="GOSTOSA"&gt;
+&lt;/button&gt;</code></pre>
+      
+      <h3 style="margin-top: 15px;">📝 Código com 6 textos (infinito!)</h3>
+      <pre><code>&lt;button data-bottle-leaves 
+        data-texto="🌅 AMANHECER"
+        data-texto1="☀️ MANHÃ"
+        data-texto2="🌤️ TARDE"
+        data-texto3="🌙 ENTARDECER"
+        data-texto4="⭐ NOITE"
+        data-texto5="🌌 MADRUGADA"&gt;
+&lt;/button&gt;</code></pre>
+      <p style="color:#88ffaa; margin-top: 12px; font-size:0.85rem;">💡 Dica: Você pode usar quantos textos quiser! data-texto, data-texto1, data-texto2, data-texto3... até data-texto99</p>
+    </div>
+  </div>
+  
+  <!-- SEÇÃO 4: PERSONALIZAÇÃO VISUAL -->
+  <div class="section">
+    <h2>⚙️ 4. Atributos de Configuração</h2>
     <div class="description">
       Personalize cada botão com atributos HTML diretos:
     </div>
     
     <div class="attr-list">
-      <span class="badge">data-bottle-leaves</span>
-      <span class="badge">data-texto="Meu Texto"</span>
-      <span class="badge">data-folhas="90"</span>
-      <span class="badge">data-intensidade="1.2"</span>
-      <span class="badge">data-gravidade="0.02"</span>
-      <span class="badge">data-herois="0.3"</span>
+      <span class="attr-badge">data-bottle-leaves</span>
+      <span class="attr-badge">data-texto="..."</span>
+      <span class="attr-badge">data-texto1="..."</span>
+      <span class="attr-badge">data-texto2="..."</span>
+      <span class="attr-badge">data-texto3="..."</span>
+      <span class="attr-badge">data-folhas="90"</span>
+      <span class="attr-badge">data-intensidade="1.2"</span>
+      <span class="attr-badge">data-gravidade="0.02"</span>
+      <span class="attr-badge">data-herois="0.3"</span>
     </div>
     
     <div class="buttons-grid">
-      <button data-bottle-leaves data-texto="CHAMA SAGRADA" data-folhas="80" style="width: 300px; height: 85px;"></button>
-      <button data-bottle-leaves data-texto="EXPLOSIVO" data-folhas="130" data-intensidade="1.4" style="width: 300px; height: 85px;"></button>
-      <button data-bottle-leaves data-texto="SUAVE" data-folhas="55" data-intensidade="0.8" style="width: 300px; height: 85px;"></button>
+      <button data-bottle-leaves 
+              data-texto="CHAMA SAGRADA" 
+              data-folhas="80" 
+              style="width: 280px; height: 85px;">
+      </button>
+      <button data-bottle-leaves 
+              data-texto="EXPLOSIVO" 
+              data-folhas="130" 
+              data-intensidade="1.4" 
+              style="width: 280px; height: 85px;">
+      </button>
+      <button data-bottle-leaves 
+              data-texto="SUAVE" 
+              data-folhas="55" 
+              data-intensidade="0.8" 
+              style="width: 280px; height: 85px;">
+      </button>
     </div>
     
     <div class="code-card">
-      <h3>📝 Exemplos de Configuração</h3>
+      <h3>📝 Exemplos Avançados</h3>
       <pre><code>&lt;!-- Botão intenso com muitas folhas --&gt;
 &lt;button data-bottle-leaves 
         data-texto="FOGO INTERIOR" 
@@ -259,9 +386,10 @@
         data-intensidade="1.3"&gt;
 &lt;/button&gt;
 
-&lt;!-- Botão suave e delicado --&gt;
+&lt;!-- Botão suave com texto duplo --&gt;
 &lt;button data-bottle-leaves 
         data-texto="BRISA" 
+        data-texto1="LEVE"
         data-folhas="60" 
         data-intensidade="0.8" 
         data-herois="0.2"&gt;
@@ -269,65 +397,72 @@
     </div>
   </div>
   
-  <!-- SEÇÃO 4: TABELA DE REFERÊNCIA -->
+  <!-- SEÇÃO 5: TABELA DE REFERÊNCIA -->
   <div class="section">
-    <h2>📖 4. Referência Completa</h2>
-    <div style="overflow-x: auto;">
-      <table style="width:100%; border-collapse: collapse; text-align: left;">
+    <h2>📖 5. Referência Completa</h2>
+    <div class="table-wrapper">
+      <table>
         <thead>
-          <tr><th style="padding: 12px; border-bottom: 1px solid #333;">Atributo</th>
-            <th style="padding: 12px; border-bottom: 1px solid #333;">Descrição</th>
-            <th style="padding: 12px; border-bottom: 1px solid #333;">Padrão</th>
-            <th style="padding: 12px; border-bottom: 1px solid #333;">Exemplo</th>
+          <tr>
+            <th>Atributo</th>
+            <th>Descrição</th>
+            <th>Padrão</th>
+            <th>Exemplo</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td style="padding: 10px; border-bottom: 1px solid #222;"><code>data-bottle-leaves</code></td><td style="padding: 10px; border-bottom: 1px solid #222;">Ativa o plugin no botão</td><td style="padding: 10px; border-bottom: 1px solid #222;">—</td><td style="padding: 10px; border-bottom: 1px solid #222;">obrigatório</td></tr>
-          <tr><td style="padding: 10px; border-bottom: 1px solid #222;"><code>data-texto</code></td><td style="padding: 10px; border-bottom: 1px solid #222;">Texto exibido no botão</td><td style="padding: 10px; border-bottom: 1px solid #222;">"RESPLANDOR"</td><td style="padding: 10px; border-bottom: 1px solid #222;">data-texto="OURO"</td></tr>
-          <tr><td style="padding: 10px; border-bottom: 1px solid #222;"><code>data-folhas</code></td><td style="padding: 10px; border-bottom: 1px solid #222;">Quantidade de folhas (30-200)</td><td style="padding: 10px; border-bottom: 1px solid #222;">95</td><td style="padding: 10px; border-bottom: 1px solid #222;">data-folhas="120"</td></tr>
-          <tr><td style="padding: 10px; border-bottom: 1px solid #222;"><code>data-intensidade</code></td><td style="padding: 10px; border-bottom: 1px solid #222;">Força da animação (0.5-2.0)</td><td style="padding: 10px; border-bottom: 1px solid #222;">1.15</td><td style="padding: 10px; border-bottom: 1px solid #222;">data-intensidade="1.5"</td></tr>
-          <tr><td style="padding: 10px; border-bottom: 1px solid #222;"><code>data-gravidade</code></td><td style="padding: 10px; border-bottom: 1px solid #222;">Gravidade das folhas (0.01-0.05)</td><td style="padding: 10px; border-bottom: 1px solid #222;">0.02</td><td style="padding: 10px; border-bottom: 1px solid #222;">data-gravidade="0.025"</td></tr>
-          <tr><td style="padding: 10px;"><code>data-herois</code></td><td style="padding: 10px;">Proporção de folhas especiais (0.1-0.6)</td><td style="padding: 10px;">0.32</td><td style="padding: 10px;">data-herois="0.4"</td></tr>
+          <tr>
+            <td><code>data-bottle-leaves</code></td>
+            <td>Ativa o plugin no botão</td>
+            <td>—</td>
+            <td>obrigatório</td>
+          </tr>
+          <tr style="background:rgba(255,215,0,0.05);">
+            <td><code>data-texto</code></td>
+            <td>Texto principal (primeiro)</td>
+            <td>"RESPLANDOR"</td>
+            <td>data-texto="OURO"</td>
+          </tr>
+          <tr style="background:rgba(255,215,0,0.03);">
+            <td><code>data-texto1,2,3...</code></td>
+            <td>Textos alternativos (hover)</td>
+            <td>—</td>
+            <td>data-texto1="BRILHO"</td>
+          </tr>
+          <tr>
+            <td><code>data-folhas</code></td>
+            <td>Quantidade de folhas (30-200)</td>
+            <td>95</td>
+            <td>data-folhas="120"</td>
+          </tr>
+          <tr>
+            <td><code>data-intensidade</code></td>
+            <td>Força da animação (0.5-2.0)</td>
+            <td>1.15</td>
+            <td>data-intensidade="1.5"</td>
+          </tr>
+          <tr>
+            <td><code>data-gravidade</code></td>
+            <td>Gravidade das folhas (0.01-0.05)</td>
+            <td>0.02</td>
+            <td>data-gravidade="0.025"</td>
+          </tr>
+          <tr>
+            <td><code>data-herois</code></td>
+            <td>Proporção de folhas especiais (0.1-0.6)</td>
+            <td>0.32</td>
+            <td>data-herois="0.4"</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
   
-  <!-- SEÇÃO 5: BOTÕES DINÂMICOS -->
+  <!-- SEÇÃO 6: TAMANHOS PERSONALIZADOS -->
   <div class="section">
-    <h2>🔄 5. Botões Dinâmicos</h2>
+    <h2>📐 6. Estilização Personalizada</h2>
     <div class="description">
-      Para botões criados após o carregamento da página, use <code style="background:#1e1e2a; padding:2px 6px; border-radius:4px;">BtnBottleLeaves.scan()</code>
-    </div>
-    
-    <div id="dynamicContainer" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0; min-height: 120px;"></div>
-    
-    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-      <button id="addRoyalBtn" class="btn-demo">👑 Adicionar Botão Royal</button>
-      <button id="addMysticBtn" class="btn-demo">🌙 Adicionar Botão Místico</button>
-      <button id="rescanBtn" class="btn-demo">🔄 Forçar Scan</button>
-    </div>
-    
-    <div class="code-card">
-      <h3>📝 Código para Botões Dinâmicos</h3>
-      <pre><code>// Criar botão dinamicamente
-const novoBotao = document.createElement('button');
-novoBotao.setAttribute('data-bottle-leaves', '');
-novoBotao.setAttribute('data-texto', 'DINÂMICO');
-novoBotao.style.width = '320px';
-novoBotao.style.height = '85px';
-container.appendChild(novoBotao);
-
-// Escanear para ativar o plugin
-BtnBottleLeaves.scan();</code></pre>
-    </div>
-  </div>
-  
-  <!-- SEÇÃO 6: ESTILIZAÇÃO PERSONALIZADA -->
-  <div class="section">
-    <h2>🎨 6. Estilização Personalizada</h2>
-    <div class="description">
-      Você pode definir <strong>width</strong> e <strong>height</strong> diretamente no botão.
+      Você pode definir <strong>width</strong> e <strong>height</strong> diretamente no botão via style ou CSS.
     </div>
     
     <div class="buttons-grid">
@@ -337,43 +472,77 @@ BtnBottleLeaves.scan();</code></pre>
     </div>
     
     <div class="code-card">
-      <h3>📝 Personalizando Tamanho</h3>
+      <h3>📝 Personalizando tamanho</h3>
       <pre><code>&lt;button data-bottle-leaves 
         data-texto="MEU BOTÃO" 
+        data-texto1="TEXTO 2"
+        data-texto2="TEXTO 3"
         style="width: 450px; height: 100px;"&gt;
 &lt;/button&gt;</code></pre>
     </div>
   </div>
   
-  <!-- SEÇÃO 7: MÚLTIPLOS BOTÕES NA MESMA PÁGINA -->
+  <!-- SEÇÃO 7: BOTÕES DINÂMICOS -->
   <div class="section">
-    <h2>✨ 7. Múltiplos Botões</h2>
+    <h2>🔄 7. Botões Dinâmicos</h2>
     <div class="description">
-      Use quantos botões quiser — cada um é independente!
+      Para botões criados após o carregamento da página, use <code>BtnBottleLeaves.scan()</code>
+    </div>
+    
+    <div id="dynamicContainer" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 30px 0; min-height: 120px;"></div>
+    
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <button id="addSimpleBtn" class="btn-demo">✨ Adicionar Botão Simples</button>
+      <button id="addMultiTextBtn" class="btn-demo">📝 Adicionar com 4 Textos</button>
+      <button id="rescanBtn" class="btn-demo">🔄 Forçar Scan</button>
+    </div>
+    
+    <div class="code-card">
+      <h3>📝 Código para Botões Dinâmicos</h3>
+      <pre><code>// Criar botão dinamicamente
+const novoBotao = document.createElement('button');
+novoBotao.setAttribute('data-bottle-leaves', '');
+novoBotao.setAttribute('data-texto', 'DINÂMICO');
+novoBotao.setAttribute('data-texto1', 'CRIADO');
+novoBotao.setAttribute('data-texto2', 'AGORA');
+novoBotao.style.width = '320px';
+novoBotao.style.height = '85px';
+container.appendChild(novoBotao);
+
+// Escanear para ativar o plugin
+BtnBottleLeaves.scan();</code></pre>
+    </div>
+  </div>
+  
+  <!-- SEÇÃO 8: MÚLTIPLOS BOTÕES -->
+  <div class="section">
+    <h2>✨ 8. Múltiplos Botões na Mesma Página</h2>
+    <div class="description">
+      Use quantos botões quiser — cada um é independente e tem sua própria animação!
     </div>
     
     <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-      <button data-bottle-leaves data-texto="PRIMEIRO" data-folhas="70" style="width: 280px; height: 85px;"></button>
-      <button data-bottle-leaves data-texto="SEGUNDO" data-folhas="90" data-intensidade="1.2" style="width: 280px; height: 85px;"></button>
-      <button data-bottle-leaves data-texto="TERCEIRO" data-folhas="110" data-herois="0.45" style="width: 280px; height: 85px;"></button>
+      <button data-bottle-leaves data-texto="PRIMEIRO" data-folhas="70" style="width: 260px; height: 85px;"></button>
+      <button data-bottle-leaves data-texto="SEGUNDO" data-texto1="DOIS" data-folhas="90" data-intensidade="1.2" style="width: 260px; height: 85px;"></button>
+      <button data-bottle-leaves data-texto="TERCEIRO" data-texto1="3" data-texto2="TRÊS" data-folhas="110" data-herois="0.45" style="width: 260px; height: 85px;"></button>
     </div>
   </div>
   
   <!-- FOOTER -->
   <footer>
-    <p>BtnBottleLeaves — Biblioteca de Botões com Efeito de Folhas Douradas</p>
+    <p><strong>BtnBottleLeaves</strong> — Biblioteca de Botões com Efeito de Folhas Douradas</p>
     <p style="margin-top: 10px;">
-      <a href="#" style="color: #FFD966; text-decoration: none;">Documentação</a> • 
-      <a href="#" style="color: #FFD966; text-decoration: none;">GitHub</a> • 
-      <span>v3.0.0</span>
+      <span>📦 CSS: <code style="background:#1a1a2a;">https://corretor-fettuccia.github.io/buttonbottle-leaves/style.css</code></span><br>
+      <span>⚡ JS: <code style="background:#1a1a2a;">https://corretor-fettuccia.github.io/buttonbottle-leaves/js/script.js</code></span>
     </p>
+    <p style="margin-top: 15px;">v3.2.0 — Suporte a textos infinitos | MIT License</p>
   </footer>
 </div>
 
-<!-- JavaScript da Biblioteca -->
+<!-- JavaScript da Biblioteca (URL corrigida) -->
 <script src="https://corretor-fettuccia.github.io/buttonbottle-leaves/js/script.js"></script>
 
-<!-- Script de demonstração (apenas para os botões dinâmicos) -->
+<!-- Script de demonstração para botões dinâmicos (NÃO faz parte da biblioteca) -->
 <script>
   (function() {
     // Aguarda o plugin carregar
@@ -381,29 +550,29 @@ BtnBottleLeaves.scan();</code></pre>
       const container = document.getElementById('dynamicContainer');
       if (!container) return;
       
-      // Botão Royal
-      document.getElementById('addRoyalBtn')?.addEventListener('click', () => {
+      // Botão Simples
+      document.getElementById('addSimpleBtn')?.addEventListener('click', () => {
         const btn = document.createElement('button');
         btn.setAttribute('data-bottle-leaves', '');
-        btn.setAttribute('data-texto', 'ROYAL EDITION');
-        btn.setAttribute('data-folhas', '100');
-        btn.setAttribute('data-intensidade', '1.3');
-        btn.style.width = '300px';
+        btn.setAttribute('data-texto', 'SIMPLES');
+        btn.setAttribute('data-folhas', '70');
+        btn.style.width = '280px';
         btn.style.height = '85px';
         container.appendChild(btn);
         
-        // Ativa o plugin no novo botão
         if (window.BtnBottleLeaves) BtnBottleLeaves.scan();
       });
       
-      // Botão Místico
-      document.getElementById('addMysticBtn')?.addEventListener('click', () => {
+      // Botão com 4 textos
+      document.getElementById('addMultiTextBtn')?.addEventListener('click', () => {
         const btn = document.createElement('button');
         btn.setAttribute('data-bottle-leaves', '');
-        btn.setAttribute('data-texto', 'MÍSTICO');
-        btn.setAttribute('data-folhas', '70');
-        btn.setAttribute('data-herois', '0.5');
-        btn.style.width = '300px';
+        btn.setAttribute('data-texto', '🌱 INÍCIO');
+        btn.setAttribute('data-texto1', '🌿 MEIO');
+        btn.setAttribute('data-texto2', '🌸 FLOR');
+        btn.setAttribute('data-texto3', '🍂 FINAL');
+        btn.setAttribute('data-folhas', '85');
+        btn.style.width = '280px';
         btn.style.height = '85px';
         container.appendChild(btn);
         
