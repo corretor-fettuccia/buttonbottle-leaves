@@ -1,7 +1,8 @@
 /* =========================================================
-   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.5.0
-   - Loop de textos corrigido (começa do primeiro)
-   - Folhas ajustadas dentro do botão
+   BTN BOTTLE LEAVES PLUGIN — DECLARATIVE MODE v3.6.0
+   - Folhas: NÃO pulam no hover (só uma leve agitada)
+   - Folhas: Pulam SOMENTE no clique
+   - Loop de textos corrigido
 ========================================================= */
 
 (function(global) {
@@ -16,8 +17,6 @@
       this.leaves = [];
       this.bounds = { width: 0, height: 0, bottomY: 0, topY: 0 };
       this.animationFrame = null;
-      
-      this.hasShakenThisHover = false;
       
       this.transitionSpeed = config.transitionSpeed || 600;
       this.transitionDuration = config.transitionDuration || 200;
@@ -74,14 +73,7 @@
       
       this.button.addEventListener('mouseenter', () => {
         this.isHovering = true;
-        
         if (hoverTimeout) clearTimeout(hoverTimeout);
-        
-        if (!this.hasShakenThisHover) {
-          this.hasShakenThisHover = true;
-          this.splash(0.7);
-        }
-        
         this.startTextRotation();
       });
       
@@ -105,10 +97,8 @@
     startTextRotation() {
       if (this.textInterval) clearInterval(this.textInterval);
       
-      // 🔥 CORRIGIDO: começa do PRIMEIRO texto (índice 0)
       this.currentTextIndex = 0;
       
-      // Mostra o primeiro texto imediatamente
       if (this.textSpan && this.texts[0]) {
         this.textSpan.textContent = this.texts[0];
       }
@@ -122,7 +112,6 @@
           this.animateTextChange(this.texts[nextIndex]);
           nextIndex++;
         } else {
-          // Volta para o primeiro texto e reinicia o ciclo
           nextIndex = 0;
           this.animateTextChange(this.texts[nextIndex]);
           nextIndex = 1;
@@ -167,14 +156,10 @@
     
     updateDimensions() {
       if (!this.bed) return;
-      const rect = this.bed.getBoundingClientRect();
       this.bounds.width = this.bed.clientWidth;
       this.bounds.height = this.bed.clientHeight;
-      // Ajuste fino para manter folhas dentro
       this.bounds.bottomY = Math.max(10, this.bounds.height - 6);
       this.bounds.topY = 4;
-      this.bounds.leftX = 4;
-      this.bounds.rightX = Math.max(20, this.bounds.width - 6);
     }
     
     createLeaves() {
@@ -195,7 +180,6 @@
         leafEl.style.width = `${baseLen}px`;
         leafEl.style.height = `${baseLen * 0.55}px`;
         
-        // Posições dentro dos limites do botão
         const margin = 8;
         this.leaves.push({
           el: leafEl,
@@ -231,6 +215,7 @@
       this.bounds.prevHeight = newH;
     }
     
+    // Método SPLASH - usado APENAS no clique
     splash(force = 1.0) {
       for (let leaf of this.leaves) {
         const delay = Math.random() * 60;
@@ -270,7 +255,6 @@
         leaf.y += leaf.vy;
         leaf.rot += leaf.vr + Math.sin(now * 0.007 + leaf.wavePhase) * 0.5;
         
-        // Limites horizontais (dentro do botão)
         if (leaf.x < 4) {
           leaf.x = 4;
           leaf.vx *= -0.45;
@@ -280,14 +264,12 @@
           leaf.vx *= -0.45;
         }
         
-        // Limite inferior (chão)
         if (leaf.y > floorY) {
           leaf.y = floorY;
           leaf.vy *= -leaf.restitution * 0.45;
           leaf.vx *= 0.96;
         }
         
-        // Limite superior (teto)
         if (leaf.y < ceilingY) {
           leaf.y = ceilingY;
           leaf.vy *= -0.3;
@@ -306,6 +288,7 @@
       }
     }
     
+    // SHAKE - chamado APENAS no clique
     shake(force = 1.2) {
       this.splash(force);
     }
@@ -372,6 +355,7 @@
       this.instances.set(button, engine);
       engine.start();
       
+      // 🔥 CLIQUE: única vez que as folhas pulam com força
       button.addEventListener('click', (e) => {
         e.preventDefault();
         engine.shake(1.3);
@@ -409,7 +393,7 @@
   const plugin = new BtnBottleLeavesPlugin();
   global.BtnBottleLeaves = {
     scan: () => plugin.scan(),
-    version: '3.5.0'
+    version: '3.6.0'
   };
   
 })(window);
